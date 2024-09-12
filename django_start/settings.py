@@ -28,7 +28,7 @@ DEBUG = False
 ALLOWED_HOSTS= ['8000-rsuny-djangoproject-7tx0ufudlt2.ws.codeinstitute-ide.net']
 CSRF_TRUSTED_ORIGINS = [
     'https://*.codeinstitute-ide.net',
-    'https://*.herokuapp.com' ,
+    'https://*.herokuapp.com',
     '.herokuapp.com'
 ]
 #it sets the url for your database connection 
