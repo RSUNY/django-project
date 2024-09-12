@@ -25,11 +25,11 @@ SECRET_KEY = 'django-insecure-f2^=e)vf675jo4k-o8!%68b&#fnbfa6wl(ef6zt&^5z03-+*rc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS= ['8000-rsuny-djangoproject-7tx0ufudlt2.ws.codeinstitute-ide.net']
+ALLOWED_HOSTS= ['8000-rsuny-djangoproject-7tx0ufudlt2.ws.codeinstitute-ide.net',
+'.herokuapp.com']
 CSRF_TRUSTED_ORIGINS = [
     'https://*.codeinstitute-ide.net',
     'https://*.herokuapp.com',
-    '.herokuapp.com'
 ]
 #it sets the url for your database connection 
 
