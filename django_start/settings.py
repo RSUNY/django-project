@@ -23,16 +23,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-f2^=e)vf675jo4k-o8!%68b&#fnbfa6wl(ef6zt&^5z03-+*rc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS= []
+ALLOWED_HOSTS= ['8000-rsuny-djangoproject-7tx0ufudlt2.ws.codeinstitute-ide.net']
 CSRF_TRUSTED_ORIGINS = [
     'https://*.codeinstitute-ide.net',
-    'https://*.herokuapp.com'
+    'https://*.herokuapp.com' ,
+    '.herokuapp.com'
 ]
-
+#it sets the url for your database connection 
 
 # Application definition
+#"".py to setting.py 
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -41,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'hello_world/',
+    'hello_world',
+    'about',
 ]
 
 MIDDLEWARE = [
