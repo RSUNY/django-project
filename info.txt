@@ -1,5 +1,5 @@
 1:"cloudinary://8bd74b70e88afda13ef7f01108e0f9"
-2:"superuser:"
+2:"superuser:: Username:RSGITPOD1 " RSGitpod1@domain.com admin_123123
 3:"envfile:"os.environ.setdefault(
     "CLOUDINARY_URL", "<URL copied from Cloudinary in last step>")"
 4:"delete the cloudinary url:"
