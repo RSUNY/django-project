@@ -1,0 +1,22 @@
+1:"cloudinary://8bd74b70e88afda13ef7f01108e0f9"
+2:"superuser:"
+3:"envfile:"os.environ.setdefault(
+    "CLOUDINARY_URL", "<URL copied from Cloudinary in last step>")"
+4:"delete the cloudinary url:"
+5:"INSTALLED APPS under .staticfiles":'cloudinary_storage',
+6:"apps/models.py:from cloudinary.models import CloudinaryField
+"
+7:"Post model code in models.py:featured_image = CloudinaryField('image', default='placeholder')"
+8:"=new field:python3 manage.py makemigrations .migrate"
+9:"app/templates/app file=new field _div": {% if "placeholder" in post.featured_image.url %}
+  <img class="card-img-top" src="{% static 'images/default.jpg' %}"
+    alt="placeholder image">
+  {% else %}
+  <img class="card-img-top" src=" {{ post.featured_image.url }}"
+    alt="{{ post.title }}">
+  {% endif %}
+10:"=Iin heroku:CLOUDINARY_URL KEY <URL copied from Cloudinary in last step>
+"underneath extends.base.html:{% load static %}
+" 
+git add  . commit -m "enable serving of image files"
+git push origin main
