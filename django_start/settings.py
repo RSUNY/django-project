@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'hello_world',
     'about',
     'Perfumes',
+    'blog'
 ]
 
 MIDDLEWARE = [
