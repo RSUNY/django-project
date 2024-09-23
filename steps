@@ -207,3 +207,360 @@ Url emails . <html></html>
 })();
 </script>
 {% endblock extra_body %}
+
+themes JS url javascript
+/*global XRegExp*/
+'use strict';
+{
+    window.addEventListener('load', function(e) {
+
+        function setTheme(mode) {
+            if (mode !== "light" && mode !== "dark" && mode !== "auto") {
+                console.error(`Got invalid theme mode: ${mode}. Resetting to auto.`);
+                mode = "auto";
+            }
+            document.documentElement.dataset.theme = mode;
+            localStorage.setItem("theme", mode);
+        }
+
+        function cycleTheme() {
+            const currentTheme = localStorage.getItem("theme") || "auto";
+            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+            if (prefersDark) {
+                // Auto (dark) -> Light -> Dark
+                if (currentTheme === "auto") {
+                    setTheme("light");
+                } else if (currentTheme === "light") {
+                    setTheme("dark");
+                } else {
+                    setTheme("auto");
+                }
+            } else {
+                // Auto (light) -> Dark -> Light
+                if (currentTheme === "auto") {
+                    setTheme("dark");
+                } else if (currentTheme === "dark") {
+                    setTheme("light");
+                } else {
+                    setTheme("auto");
+                }
+            }
+        }
+
+        function initTheme() {
+            // set theme defined in localStorage if there is one, or fallback to auto mode
+            const currentTheme = localStorage.getItem("theme");
+            currentTheme ? setTheme(currentTheme) : setTheme("auto");
+        }
+
+        function setupTheme() {
+            // Attach event handlers for toggling themes
+            const buttons = document.getElementsByClassName("theme-toggle");
+            Array.from(buttons).forEach((btn) => {
+                btn.addEventListener("click", cycleTheme);
+            });
+            initTheme();
+        }
+
+        setupTheme();
+    });
+}
+actions js url_ javascript
+/*global gettext, interpolate, ngettext*/
+'use strict';
+{
+    function show(selector) {
+        document.querySelectorAll(selector).forEach(function(el) {
+            el.classList.remove('hidden');
+        });
+    }
+
+    function hide(selector) {
+        document.querySelectorAll(selector).forEach(function(el) {
+            el.classList.add('hidden');
+        });
+    }
+
+    function showQuestion(options) {
+        hide(options.acrossClears);
+        show(options.acrossQuestions);
+        hide(options.allContainer);
+    }
+
+    function showClear(options) {
+        show(options.acrossClears);
+        hide(options.acrossQuestions);
+        document.querySelector(options.actionContainer).classList.remove(options.selectedClass);
+        show(options.allContainer);
+        hide(options.counterContainer);
+    }
+
+    function reset(options) {
+        hide(options.acrossClears);
+        hide(options.acrossQuestions);
+        hide(options.allContainer);
+        show(options.counterContainer);
+    }
+
+    function clearAcross(options) {
+        reset(options);
+        const acrossInputs = document.querySelectorAll(options.acrossInput);
+        acrossInputs.forEach(function(acrossInput) {
+            acrossInput.value = 0;
+        });
+        document.querySelector(options.actionContainer).classList.remove(options.selectedClass);
+    }
+
+    function checker(actionCheckboxes, options, checked) {
+        if (checked) {
+            showQuestion(options);
+        } else {
+            reset(options);
+        }
+        actionCheckboxes.forEach(function(el) {
+            el.checked = checked;
+            el.closest('tr').classList.toggle(options.selectedClass, checked);
+        });
+    }
+
+    function updateCounter(actionCheckboxes, options) {
+        const sel = Array.from(actionCheckboxes).filter(function(el) {
+            return el.checked;
+        }).length;
+        const counter = document.querySelector(options.counterContainer);
+        // data-actions-icnt is defined in the generated HTML
+        // and contains the total amount of objects in the queryset
+        const actions_icnt = Number(counter.dataset.actionsIcnt);
+        counter.textContent = interpolate(
+            ngettext('%(sel)s of %(cnt)s selected', '%(sel)s of %(cnt)s selected', sel), {
+                sel: sel,
+                cnt: actions_icnt
+            }, true);
+        const allToggle = document.getElementById(options.allToggleId);
+        allToggle.checked = sel === actionCheckboxes.length;
+        if (allToggle.checked) {
+            showQuestion(options);
+        } else {
+            clearAcross(options);
+        }
+    }
+
+    const defaults = {
+        actionContainer: "div.actions",
+        counterContainer: "span.action-counter",
+        allContainer: "div.actions span.all",
+        acrossInput: "div.actions input.select-across",
+        acrossQuestions: "div.actions span.question",
+        acrossClears: "div.actions span.clear",
+        allToggleId: "action-toggle",
+        selectedClass: "selected"
+    };
+
+    window.Actions = function(actionCheckboxes, options) {
+        options = Object.assign({}, defaults, options);
+        let list_editable_changed = false;
+        let lastChecked = null;
+        let shiftPressed = false;
+
+        document.addEventListener('keydown', (event) => {
+            shiftPressed = event.shiftKey;
+        });
+
+        document.addEventListener('keyup', (event) => {
+            shiftPressed = event.shiftKey;
+        });
+
+        document.getElementById(options.allToggleId).addEventListener('click', function(event) {
+            checker(actionCheckboxes, options, this.checked);
+            updateCounter(actionCheckboxes, options);
+        });
+
+        document.querySelectorAll(options.acrossQuestions + " a").forEach(function(el) {
+            el.addEventListener('click', function(event) {
+                event.preventDefault();
+                const acrossInputs = document.querySelectorAll(options.acrossInput);
+                acrossInputs.forEach(function(acrossInput) {
+                    acrossInput.value = 1;
+                });
+                showClear(options);
+            });
+        });
+
+        document.querySelectorAll(options.acrossClears + " a").forEach(function(el) {
+            el.addEventListener('click', function(event) {
+                event.preventDefault();
+                document.getElementById(options.allToggleId).checked = false;
+                clearAcross(options);
+                checker(actionCheckboxes, options, false);
+                updateCounter(actionCheckboxes, options);
+            });
+        });
+
+        function affectedCheckboxes(target, withModifier) {
+            const multiSelect = (lastChecked && withModifier && lastChecked !== target);
+            if (!multiSelect) {
+                return [target];
+            }
+            const checkboxes = Array.from(actionCheckboxes);
+            const targetIndex = checkboxes.findIndex(el => el === target);
+            const lastCheckedIndex = checkboxes.findIndex(el => el === lastChecked);
+            const startIndex = Math.min(targetIndex, lastCheckedIndex);
+            const endIndex = Math.max(targetIndex, lastCheckedIndex);
+            const filtered = checkboxes.filter((el, index) => (startIndex <= index) && (index <= endIndex));
+            return filtered;
+        };
+
+        Array.from(document.getElementById('result_list').tBodies).forEach(function(el) {
+            el.addEventListener('change', function(event) {
+                const target = event.target;
+                if (target.classList.contains('action-select')) {
+                    const checkboxes = affectedCheckboxes(target, shiftPressed);
+                    checker(checkboxes, options, target.checked);
+                    updateCounter(actionCheckboxes, options);
+                    lastChecked = target;
+                } else {
+                    list_editable_changed = true;
+                }
+            });
+        });
+
+        document.querySelector('#changelist-form button[name=index]').addEventListener('click', function(event) {
+            if (list_editable_changed) {
+                const confirmed = confirm(gettext("You have unsaved changes on individual editable fields. If you run an action, your unsaved changes will be lost."));
+                if (!confirmed) {
+                    event.preventDefault();
+                }
+            }
+        });
+
+        const el = document.querySelector('#changelist-form input[name=_save]');
+        // The button does not exist if no fields are editable.
+        if (el) {
+            el.addEventListener('click', function(event) {
+                if (document.querySelector('[name=action]').value) {
+                    const text = list_editable_changed
+                        ? gettext("You have selected an action, but you haven’t saved your changes to individual fields yet. Please click OK to save. You’ll need to re-run the action.")
+                        : gettext("You have selected an action, and you haven’t made any changes on individual fields. You’re probably looking for the Go button rather than the Save button.");
+                    if (!confirm(text)) {
+                        event.preventDefault();
+                    }
+                }
+            });
+        }
+    };
+
+    // Call function fn when the DOM is loaded and ready. If it is already
+    // loaded, call the function now.
+    // http://youmightnotneedjquery.com/#ready
+    function ready(fn) {
+        if (document.readyState !== 'loading') {
+            fn();
+        } else {
+            document.addEventListener('DOMContentLoaded', fn);
+        }
+    }
+
+    ready(function() {
+        const actionsEls = document.querySelectorAll('tr input.action-select');
+        if (actionsEls.length > 0) {
+            Actions(actionsEls);
+        }
+    });
+}
+
+11_authorisation/03_custom_template/staticfiles/admin/img/LICENSE
+The MIT License (MIT)
+
+Copyright (c) 2014 Code Charm Ltd
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+// URLS PY
+from django.contrib import admin
+from django.urls import path, include
+
+
+urlpatterns = [
+    path("about/", include("about.urls"), name="about-urls"),
+    path("accounts/", include("allauth.urls")),
+    path('admin/', admin.site.urls),
+    path('summernote/', include('django_summernote.urls')),
+    path("", include("blog.urls"), name="blog-urls"),
+]
+
+setting.py 
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'django_summernote',
+    'blog',
+    'about',
+]
+
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+<App_Naming>
+<views class="py"></views>
+queryset = Post.objects.filter(status=1)
+post = get_object_or_404(queryset, slug=slug)
+return render(request, "blog/post_detail.html", {"post": post},)
+
+
+class
+PostList
+const
+queryset
+const
+template_name
+const
+paginate_by
+func
+post_detail
+
+// VIEWS PY 
+define that into a post list for each post-detail
+class PostList(generic.ListView):
+    queryset = Post.objects.filter(status=1)
+    template_name = "blog/index.html"
+    paginate_by = 6
+
+
+def post_detail(request, slug):
+
+
+// App_Naming/URLS PY
+from . import views
+from django.urls import path
+
+urlpatterns = [
+    path('', views.PostList.as_view(), name='home'),
+    path('<slug:slug>/', views.post_detail, name="post_detail"),
+]
