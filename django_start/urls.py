@@ -22,6 +22,6 @@ from django.urls import path, include
 urlpatterns = [
     path('', include("blog.urls"), name="blog-urls"),
     path("Perfumes/", include("Perfumes.urls"), name="Perfumes-urls"),
-    # path("accounts/", include("allaut.urls")),
+    path("accounts/", include("allaut.urls")),
     path('admin/', admin.site.urls),
 ]#it commands the page is requested contains all the user information to the matching url modal(.py)
