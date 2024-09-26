@@ -13,6 +13,7 @@ class Perfume(models.Model):
         slug = models.SlugField()
         title = models.CharField(max_length=200, unique=True)
         style = models.CharField(max_length=200)
+        featured_original = CloudinaryField('image', default='placeholder')
 
 class Duplicate(models.Model):
         perfume_id = models.CharField()
