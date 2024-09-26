@@ -13,16 +13,29 @@
     <nav></nav>
     <header>
 
-
-        {% block title %}{% block head_title}{%endblock head_title %0}{ %endblock title %}
-
+<!-- navbar  and footer -->
+        {include 'navbar.html'}
+<!-- messages and spans -->
+<!-- request user authentication -->
         {% block content %}
+        {% endblock content %}
 
-        <div class="row">
+        <div class="container">
             <div class="'row">
                 <div class="row bg">
-                    <div class="center-form">
-
+                    <a href="{% url 'home' %}"
+                    <!-- <span class="center-form"> images icons -->
+                    </a>
+                </div>
+                    <!-- 2 div classes like body or exerpt -->
+                     <!-- Used Cloudinary template from I think I Therfore Blog -->
+                     {% if "placeholder" in post.featured_image.url %}
+                     <img class="card-img-top" src="{% static 'images/default.jpg' %}"
+                       alt="placeholder image">
+                     {% else %}
+                     <img class="card-img-top" src=" {{ Perfume.featured_image.url }}"
+                       alt="{{ Perfume.title }}">
+                     {% endif %}
                     </div>
                 </div>
             </div>
@@ -32,10 +45,15 @@
 
     </header>
 
+    {% block content %}
+    {% endblock content %}
+
+    <!-- div ending tag from sit-top icons and classes -->
+
  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+        
 </body>
-
 </html>
 
 

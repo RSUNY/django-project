@@ -10,4 +10,4 @@ from django.db.models import Avg
 
 class PerfumesList(generic.ListView):
     queryset = Perfume.objects.all()
-#     template_name = "index.html"
+    template_name = "index.html"
