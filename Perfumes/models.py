@@ -1,15 +1,20 @@
 from django.db import models
 from django.contrib.auth.models import User
+from blog.models import PerfumesList
 from django.core.validators import MinValueValidator, MaxValueValidator
 from cloudinary.models import CloudinaryField
 from django.db.models.fields import DecimalField, FloatField, IntegerField
+
 STATUS = ((0 , "Draft") , (1 ,"Published"))
 # Create your models here.
 class Perfume(models.Model):
         perfume_id = models.CharField()
         slug = models.SlugField()
+        customer_id = models.ManyToManyField(PerfumesList)
+
         
         featured_image = CloudinaryField('image', default='placeholder')
+
 
 
 class Review(models.Model):
