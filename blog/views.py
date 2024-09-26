@@ -6,7 +6,7 @@ from django.views import generic
 
 # Create your views here.
 class ComparisonList(generic.ListView):
-    model = Poster
+    model = About
 
     # single blog detail event is clicked on to view
 # def event_detail(request, event_id):

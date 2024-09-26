@@ -5,13 +5,19 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from cloudinary.models import CloudinaryField
 from django.db.models.fields import DecimalField, FloatField, IntegerField
 
+
+
 STATUS = ((0 , "Draft") , (1 ,"Published"))
 # Create your models here.
 class Perfume(models.Model):
         perfume_id = models.CharField()
         slug = models.SlugField()
-        customer_id = models.ManyToManyField(PerfumesList)
-
+        Perfumes_List = models.ForeignKey(
+        PerfumesList,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
         
         featured_image = CloudinaryField('image', default='placeholder')
 
