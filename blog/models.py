@@ -12,7 +12,7 @@ class Subscriber(User):
     slug = models.SlugField(unique=True)
     description = models.TextField()
     order = models.IntegerField(default=1)
-    User = models.ManyToManyField(User)
+    users = models.ManyToManyField(User, related_name='subscribers')
 
     
 
@@ -28,7 +28,7 @@ class Subs(models.Model):
     sub_type =models.CharField(
     choices = SUBS_CHOICES,
     default = 'Free', max_length = 30)
-    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True)
+    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, related_name='subscription')
 
 
     def __str__(self):
