@@ -6,12 +6,16 @@ from django.db.models.fields import DecimalField, FloatField, IntegerField
 STATUS = ((0 , "Draft") , (1 ,"Published"))
 # Create your models here.
 class Perfume(models.Model):
-        featured_image = CloudinaryField('image', default='placeholder')
+        perfume_id = models.CharField()
+        slug = models.SlugField()
         
+        featured_image = CloudinaryField('image', default='placeholder')
+
 
 class Review(models.Model):
+        perfume_id = models.CharField(max_length=200, unique=True)
         featured_image = CloudinaryField('image', default='placeholder')
-    # …
+        status = models.IntegerField(choices=STATUS, default=0)
 
 class Meta:
         ordering = ["-created_on"]

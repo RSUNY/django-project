@@ -1,9 +1,9 @@
 from django.contrib import admin
 from .models import Perfume
-# from django_summernote.admin import SummernoteModelAdmin
 
 
-# @admin.register(Perfume)
+
+admin.site.register(Perfume)
 
 
 
