@@ -12,14 +12,14 @@ class Perfume(models.Model):
         perfume_id = models.CharField()
         slug = models.SlugField()
         title = models.CharField(max_length=200, unique=True)
-        style = models.DecimalField(max_length=200)
+        style = models.CharField(max_length=200)
 
 class Duplicate(models.Model):
         perfume_id = models.CharField()
         slug = models.SlugField()
         title = models.CharField(max_length=200, unique=True)
-        style = models.DecimalField(max_length=200)
-        price = models.DecimalField(default=0)
+        style = models.DecimalField(max_digits=10, decimal_places=2)
+        price = models.DecimalField(max_digits=10, decimal_places=2)
         origin = models.CharField(max_length=50)
         featured_image = CloudinaryField('image', default='placeholder')
 

@@ -7,7 +7,7 @@ from django.utils.text import slugify
 
 # Create your models here.
 class Subscriber(User):
-    serial_number = models.DecimalField()
+    serial_number = models.DecimalField(max_digits=60, decimal_places=2)
     title = models.CharField(max_length=150)
     slug = models.SlugField(unique=True)
     description = models.TextField()
