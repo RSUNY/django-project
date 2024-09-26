@@ -1,5 +1,28 @@
+/* Google fonts import */
+@import url("https://fonts.googleapis.com/css?family=Raleway%7CRighteous");
+
+
+/* HOME PAGE - mobile first */
+/* #home {
+    margin-top: 250px;
+} */
+
+/* CONTACT-CONTENT SET MAX WIDTH - font styling for larger screens */
+
+/* Style select bold and Review Area */
+
+/* Styles Font and Typography of Sign up id */
+/* Styles Font and Typography of Sign out id */
+/* Styles Font and Typography of login in id */
+/* Styles Font and Typography of logout id */
+
+/* Styles Sumbit  and Typography of btn btn-danger*/
+/* Styles Sumbit  and Typography of btn btn-cancel*/
+/* Styles Sumbit  and Typography of btn btn-success*/
+
 body {
-    background-color: #F9FAFC;
+    min-height: 100vh;
+    background-color: #f9fafd;
 }
 
 .brand {
@@ -159,3 +182,15 @@ body {
 .approval {
     color: rgb(222, 146, 168);
 }
+
+/* font awesoem icons */
+
+/* footer -dividers */
+
+
+/* 
+NEW AREA   */
+
+
+/* RESPONSIVE DESIGN */
+
