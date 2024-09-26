@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from blog.models import PerfumesList
 from django.core.validators import MinValueValidator, MaxValueValidator
 from cloudinary.models import CloudinaryField
 from django.db.models.fields import DecimalField, FloatField, IntegerField
@@ -12,13 +11,16 @@ STATUS = ((0 , "Draft") , (1 ,"Published"))
 class Perfume(models.Model):
         perfume_id = models.CharField()
         slug = models.SlugField()
-        Perfumes_List = models.ForeignKey(
-        PerfumesList,
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
-    )
-        
+        title = models.CharField(max_length=200, unique=True)
+        style = models.DecimalField(max_length=200)
+
+class Duplicate(models.Model):
+        perfume_id = models.CharField()
+        slug = models.SlugField()
+        title = models.CharField(max_length=200, unique=True)
+        style = models.DecimalField(max_length=200)
+        price = models.DecimalField(default=0)
+        origin = models.CharField(max_length=50)
         featured_image = CloudinaryField('image', default='placeholder')
 
 
@@ -27,39 +29,18 @@ class Review(models.Model):
         perfume_id = models.CharField(max_length=200, unique=True)
         featured_image = CloudinaryField('image', default='placeholder')
         status = models.IntegerField(choices=STATUS, default=0)
-
+        review_title = models.CharField(max_length=50, unique = False)
+        reviewer_featured = models.ForeignKey(
+                User,on_delete=models.CASCADE, related_name="reviewer"
+        )
+        rating_approved = models.BooleanField(default=False)
+        created_on = models.DateTimeField(auto_now_add=True)
+        rating = models.IntegerField(
+                validators=[MinValueValidator(1), MaxValueValidator(5)]
+        
+        )
 class Meta:
         ordering = ["-created_on"]
 
-# related_query-__name__
-# related _name 
-# limit_choices_to
-# choice_set 
-# models.py 
-# from django.db import models
-# from django.utils import timezone
-# from autoslug import AutoSlugField
-# forms.py
-# from django import forms
-# from django.forms import ModelForm
-# from app.models import UserProfile
-# all 
-# from django.contrib.auth.models import User
-
-
-
-# Class UserProfile(models.Model)
-#     user = models.OneToOneField(User)
-#     website = models.URLField(blank=True)
-#     picture = models.ImageField(uploade_to='media/' , blank=True)
-
-#     def __unicode_(self):
-#         return self.user.username
-
-
-#     model = User
-#     fields = ('username ' , 'email' , 'password')
-# class UserProfileForm(forms)
-#     class Meta:
-#     model = UserProfile
-#     fields = ('website' , 'picture')
+def __str__(self):
+        return f"Review of {self.perfume_id} by {self.reviewer_featured}"
