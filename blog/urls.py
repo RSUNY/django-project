@@ -11,7 +11,8 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('', views.ComparisonList.as_view(), name='home'),
     path("<int:subscribe_id>", views.articles_detail.as_view(), name='articles_detail'),
-    path('<slug:slug>/', views.sub_detail.as_view, name='articles_list'),
+    path("<int:subscribe_id>/subs/", views.sub_detail.as_view(), name='subs'),
+    path("<int:subscribe_id)/notsubs/", views.sub_detail.as_view(), name='notsubs'),
     path(
         '<slug:slug>/edit_review/<int:review_id>',
         views.review_edit,

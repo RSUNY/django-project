@@ -45,7 +45,7 @@ class ComparisonList(generic.ListView):
     #  queryset = Poster.objects.filter(status=1)
     # post = get_object_or_404(queryset, slug=slug)
 
-    # return render(pytho
+    # return render(
     #     request,
     #     "blog/blog_detail.html",
     #     {"post": post},
@@ -57,4 +57,3 @@ class ComparisonList(generic.ListView):
     # return render(
     #     request,
     #     "blog/blog_detail.html",
-        # {"post": post},
