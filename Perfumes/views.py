@@ -8,6 +8,10 @@ from django.http import HttpResponseRedirect
 from django.db.models import Avg
 # Create your views here.
 
-class PerfumesList(generic.ListView):
+class PerfumesList(generic.DetailView):
     queryset = Perfume.objects.all()
-    template_name = "index.html"
+    template_name = "perfume_detail.html"
+
+class DuplicateList(generic.DetailView):
+    queryset = Perfume.objects.all()
+    template_name = "duplicate_detail.html"
