@@ -19,7 +19,7 @@ class ComparisonList(generic.ListView):
 #         {"details": event},
     # )
 
-def blog_detail(request, slug):
+# def articles_detail(request, slug):
     """
     Display an individual :model:`blog.Post`.
 
@@ -33,11 +33,28 @@ def blog_detail(request, slug):
     :template:`blog/post_detail.html`
     """
 
-    queryset = Poster.objects.filter(status=1)
-    post = get_object_or_404(queryset, slug=slug)
+    class SiteView(ListView):
+        queryset = Site
+        template_name = "blog/index.html"
 
-    return render(
-        request,
-        "blog/blog_detail.html",
-        {"post": post},
-    )
+    class articles_detail(TemplateView):
+        context_object_name = 'pageNum'
+        template_name = 'blog/subscription_list.html'
+    def _get_page(self, *args, **kwargs):
+
+    #  queryset = Poster.objects.filter(status=1)
+    # post = get_object_or_404(queryset, slug=slug)
+
+    # return render(pytho
+    #     request,
+    #     "blog/blog_detail.html",
+    #     {"post": post},
+    # )
+
+#    queryset = Poster.objects.filter(status=1)
+    # post = get_object_or_404(queryset, slug=slug)
+
+    # return render(
+    #     request,
+    #     "blog/blog_detail.html",
+        # {"post": post},

@@ -10,13 +10,8 @@ from django.views.generic import TemplateView
 # from the url accessed slug : uses the name, post_detail from the urlpattern and the slug variable 
 urlpatterns = [
     path('', views.ComparisonList.as_view(), name='home'),
-    path('<slug:slug>/', views.blog_detail, name="blog_detai")
-    from django.urls import path
-from . import views
-
-urlpatterns = [
-    path('', views.BeerList.as_view(), name='home'),
-    path('<slug:slug>/', views.beer_detail, name='beer_detail'),
+    path("<int:subscribe_id>", views.articles_detail.as_view(), name='articles_detail'),
+    path('<slug:slug>/', views.sub_detail.as_view, name='articles_list'),
     path(
         '<slug:slug>/edit_review/<int:review_id>',
         views.review_edit,
@@ -28,7 +23,7 @@ urlpatterns = [
         name='review_delete'
     ),
 ]
-]
+
 
 #path(
 #     '<slug:slug>/delete_review/<int:slug_id>'
