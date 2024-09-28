@@ -25,7 +25,7 @@ class PerfumeDetail(View):
         
         return render(
             request,
-            "Perfumes/perfume_detail.html",  # Use a specific template for detail view
+            "perfumes_list/perfume_detail.html",  # Use a specific template for detail view
             {
                 "perfume": perfume,
                 "reviews": reviews,
@@ -71,7 +71,7 @@ class DuplicateDetail(View):
 
         return render(
             request,
-            "Perfumes/duplicate_detail.html",  # Use a specific template for detail view
+            "duplicates_list/duplicate_detail.html",  # Use a specific template for detail view
             {
                 "duplicate": duplicate,
                 "reviews": reviews,

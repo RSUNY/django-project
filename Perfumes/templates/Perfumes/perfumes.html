@@ -7,8 +7,7 @@
     <!-- Code to be iterated to create numerous cards from database -->
     {% for perfume in perfumes %}
     <div class="col-md-4 col-12 mb-4 link_highlight">
-      <a href="{% url 'perfume_detail' perfume.slug %}" class="card-link">
-        <a href="{% url 'perfumes_list' perfume.slug %}" class="card-link">
+      <a href="{% url 'perfumes_list' %}" class="card-link">View Perfumes</a>
           <div class="card border-warning">
             {% if "placeholder" in perfume.image.url %}
             <img class="card-img-top" src="{% static 'img/default.jpg' %}" alt="placeholder image">

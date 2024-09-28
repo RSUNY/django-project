@@ -7,26 +7,24 @@
     <!-- Code to be iterated to create numerous cards from database -->
     {% for duplicate in duplicates %}
     <div class="col-md-4 col-12 mb-4 link_highlight">
-      <a href="{% url 'duplicate_detail' perfume.slug %}" class="card-link">
-        <div class="card border-warning">
-          {% if "placeholder" in duplicate.image.url %}
-          <img class="card-img-top" src="{% static 'img/default.jpg' %}"
-          alt="placeholder image">
+      <a href="{% url 'duplicates_list' %}" class="card-link">View Perfumes</a>
+      <div class="card border-warning">
+        {% if "placeholder" in duplicate.image.url %}
+        <img class="card-img-top" src="{% static 'img/default.jpg' %}" alt="placeholder image">
         {% else %}
-        <img class="card-img-top" src=" {{ duplicate.featured_image.url }}"
-          alt="{{ duplicate.title }}">
-          <div class="card-body">
-            {% endif %}
-            <h5 class="card-title">{{ duplicate.title }}</h5>
-            <p class="card-text">-£{{ duplicate.style }}</p>
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><strong>Title: </strong>{{ duplicate.title }}</li>
-            <li class="list-group-item"><strong>Style: </strong>{{ duplicate.style }}</li>
-            <li class="list-group-item"><strong>Origin: </strong>{{ duplicate.origin }}</li>
-            <li class="list-group-item"><strong>Price: -£ </strong>{{ duplicate.price }}</li>
-          </ul>
+        <img class="card-img-top" src=" {{ duplicate.featured_image.url }}" alt="{{ duplicate.title }}">
+        <div class="card-body">
+          {% endif %}
+          <h5 class="card-title">{{ duplicate.title }}</h5>
+          <p class="card-text">-£{{ duplicate.style }}</p>
         </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Title: </strong>{{ duplicate.title }}</li>
+          <li class="list-group-item"><strong>Style: </strong>{{ duplicate.style }}</li>
+          <li class="list-group-item"><strong>Origin: </strong>{{ duplicate.origin }}</li>
+          <li class="list-group-item"><strong>Price: -£ </strong>{{ duplicate.price }}</li>
+        </ul>
+      </div>
       </a>
     </div>
     <!-- End of iterated code-->
