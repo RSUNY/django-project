@@ -7,27 +7,28 @@
     <!-- Code to be iterated to create numerous cards from database -->
     {% for perfume in perfumes %}
     <div class="col-md-4 col-12 mb-4 link_highlight">
-      <a href="{% url 'PerfumesList' perfume.slug %}" class="card-link">
-        <div class="card border-warning">
-          {% if "placeholder" in perfume.image.url %}
-          <img class="card-img-top" src="{% static 'img/default.jpg' %}" alt="placeholder image">
-          {% else %}
-          <img class="card-img-top" src=" {{ perfume.featured_image.url }}" alt="{{ perfume.title }}">
-          {% endif %}
-          <div class="card-body">
-          <h5 class="card-title">{{ perfume.title }}</h5>
-          <p class="card-text">{{ perfume.style }}</p>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item"><strong>Title: </strong>{{ perfume.title }}</li>
-          <li class="list-group-item"><strong>Style: </strong>{{ perfume.style }}</li>
-        </ul>
+      <a href="{% url 'perfume_detail' perfume.slug %}" class="card-link">
+        <a href="{% url 'perfumes_list' perfume.slug %}" class="card-link">
+          <div class="card border-warning">
+            {% if "placeholder" in perfume.image.url %}
+            <img class="card-img-top" src="{% static 'img/default.jpg' %}" alt="placeholder image">
+            {% else %}
+            <img class="card-img-top" src=" {{ perfume.featured_image.url }}" alt="{{ perfume.title }}">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ perfume.title }}</h5>
+              <p class="card-text">{{ perfume.style }}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><strong>Title: </strong>{{ perfume.title }}</li>
+              <li class="list-group-item"><strong>Style: </strong>{{ perfume.style }}</li>
+            </ul>
+          </div>
+        </a>
     </div>
-    </a>
+    <!-- End of iterated code-->
+    {% endfor %}
   </div>
-  <!-- End of iterated code-->
-  {% endfor %}
-</div>
 </div>
 {% if is_paginated %}
 <div class="pagination">

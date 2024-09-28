@@ -7,7 +7,7 @@
     <!-- Code to be iterated to create numerous cards from database -->
     {% for duplicate in duplicates %}
     <div class="col-md-4 col-12 mb-4 link_highlight">
-      <a href="{% url 'DuplicatesList' duplicate.slug %}" class="card-link">
+      <a href="{% url 'duplicate_detail' perfume.slug %}" class="card-link">
         <div class="card border-warning">
           {% if "placeholder" in duplicate.image.url %}
           <img class="card-img-top" src="{% static 'img/default.jpg' %}"
