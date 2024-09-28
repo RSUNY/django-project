@@ -41,11 +41,12 @@
     <title>Hangouts {% block title %}{% block head_title}{%endblock head_title %}</title>
 </head>
 
-<body>
+<body class="d-flex flex column 100 main-bg">
     <!-- logo section -->
 
     <header>
-        <nav class="navbar" <!-- navbar and footer -->
+        <!-- navbar and footer starts here --        -->
+        <nav class="navbar navbar-expand-lg navbar light bg-light">
             <span class=" navbar-text text-muted">
                 adventures of a software developer
             </span>
@@ -53,54 +54,56 @@
             <div class="container-fluid">
                 <a class="navbar-brand" href="{% url 'home' %}">Home</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-                  aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
+                    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarText">
-                  <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    {% if user.is_authenticated %}
-                    <li class="nav-item">
-                      <a class="nav-link {% if request.path == logout_url %}active{% endif %}" aria-current="page"
-                        href="{% url 'account_logout' %}">Logout</a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                      <a class="nav-link {% if request.path == signup_url %}active{% endif %}" aria-current="page"
-                        href="{% url 'account_signup' %}">Register</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link {% if request.path == login_url %}active{% endif %}" aria-current="page"
-                        href="{% url 'account_login' %}">Login</a>
-                    </li>
-                    {% endif %}
-                  </ul>
-                  {% if user.is_authenticated %}
-                  <p class="text-end m-3">You are logged in as {{ user }}</p>
-                  {% else %}
-                  <p class="text-end m-3">You are not logged in</p>
-                  {% endif %}
-                </div>
-              </div>
-            </nav>
-            <!-- messages and alerts -->
-            <div class="container djangomessage">
-                <div class="row">
-                    <div class="col-md-8 offset-md-2">
-                        {% for message in messages %}
-                        <div class="alert {{ message.tags }} alert-dismissible
-        fade show" id="msg" role="alert">
-                            {{ message | safe }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                        {% endfor %}
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == logout_url %}active{% endif %}" aria-current="page"
+                                href="{% url 'account_logout' %}">Logout</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == signup_url %}active{% endif %}" aria-current="page"
+                                href="{% url 'account_signup' %}">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.path == login_url %}active{% endif %}" aria-current="page"
+                                href="{% url 'account_login' %}">Login</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+
+                    <div class="flex-shrink-0 main-bg masthead-image">
+                        {% if user.is_authenticated %}
+                        <p class="text-end m-3">You are logged in as {{ user }}</p>
+                        {% else %}
+                        <p class="text-end m-3">You are not logged in</p>
+                        {% endif %}
                     </div>
                 </div>
+        </nav>
+        <!-- messages and alerts -->
+        <div class="container djangomessage">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    {% for message in messages %}
+                    <div class="alert {{ message.tags }} alert-dismissible
+        fade show" id="msg" role="alert">
+                        {{ message | safe }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
+        </div>
 
-            {% block content %}
-            <!-- content goes here -->
+        {% block content %}
+        <!-- content goes here -->
 
-            {% endblock content %}
+        {% endblock content %}
 
 
     </header>
@@ -108,12 +111,23 @@
     {% block content %}
     {% endblock content %}
 
-    <!-- div ending tag from sit-top icons and classes -->
+    <!-- Footer -->
+    <footer class="footer mt-auto py-3 dark-bg">
+        <p class="m-0 text-center text-white">
+            {% block copyright %}Made by Code Instituters{% endblock copyright %}
+        </p>
+        <p class="m-0 text-center text-white">Follow us: <i class="fab fa-facebook-square ms-3"></i>
+            <i class="fab fa-twitter-square ms-3"></i>
+            <i class="fab fa-instagram-square ms-3"></i>
+            <i class="fab fa-youtube-square ms-3"></i>
+        </p>
+    </footer>
 
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-
-    <!-- <script src="{% static 'js/script.js'"></script>third party js source in this file -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous">
+        </script>
+    <!-- javascript -->
+    <script src="{% static 'js/script.js'}"></script>
 
 </body>
 
