@@ -7,8 +7,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-   path('perfumes/', views.PerfumesList.as_view(), name='perfumes_list'),
-   path('duplicates/', views.DuplicatesList.as_view(), name='duplicates_list'),
+   path('', views.PerfumesList.as_view(), name='perfumes_list'),
+   path('', views.DuplicatesList.as_view(), name='duplicates_list'),
     
    path('perfumes/<slug:slug>/', views.PerfumeDetail.as_view(), name='perfume_detail'),
    path('duplicates/<slug:slug>/', views.DuplicateDetail.as_view(), name='duplicate_detail'),
