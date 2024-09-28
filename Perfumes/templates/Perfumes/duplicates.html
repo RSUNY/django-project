@@ -10,8 +10,8 @@
       <a href="{% url 'DuplicatesList' duplicate.slug %}" class="card-link">
         <div class="card border-warning">
           {% if "placeholder" in duplicate.image.url %}
-          <img class="card-img-top" src="{% static 'images/default.jpg' %}"
-          alt="placeholder image">
+          <!-- <img class="card-img-top" src="{% static 'img/default.jpg' %}"
+          alt="placeholder image"> -->
         {% else %}
         <img class="card-img-top" src=" {{ Duplicate.featured_image.url }}"
           alt="{{ post.title }}">

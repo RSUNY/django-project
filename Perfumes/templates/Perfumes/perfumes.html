@@ -10,8 +10,8 @@
       <a href="{% url 'PerfumesList' perfume.slug %}" class="card-link">
         <div class="card border-warning">
           {% if "placeholder" in perfume.image.url %}
-          <img class="card-img-top" src="{% static 'images/default.jpg' %}" alt="placeholder image">
-          {% else %}
+          <!-- <img class="card-img-top" src="{% static 'img/default.jpg' %}" alt="placeholder image">
+          {% else %} -->
           <img class="card-img-top" src=" {{ Perfume.featured_image.url }}" alt="{{ post.title }}">
           {% endif %}
           <div class="card-body">
