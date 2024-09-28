@@ -1,5 +1,5 @@
 {% extends 'base.html'}
-
+{% load static %}
 {% block content %}
 
 <div class="container" id="perfumecards">
@@ -10,17 +10,17 @@
       <a href="{% url 'PerfumesList' perfume.slug %}" class="card-link">
         <div class="card border-warning">
           {% if "placeholder" in perfume.image.url %}
-          <!-- <img class="card-img-top" src="{% static 'img/default.jpg' %}" alt="placeholder image">
-          {% else %} -->
-          <img class="card-img-top" src=" {{ Perfume.featured_image.url }}" alt="{{ post.title }}">
+          <img class="card-img-top" src="{% static 'img/default.jpg' %}" alt="placeholder image">
+          {% else %}
+          <img class="card-img-top" src=" {{ perfume.featured_image.url }}" alt="{{ perfume.title }}">
           {% endif %}
           <div class="card-body">
-          <h5 class="card-title">{{ Perfume.title }}</h5>
-          <p class="card-text">{{ Perfume.style }}</p>
+          <h5 class="card-title">{{ perfume.title }}</h5>
+          <p class="card-text">{{ perfume.style }}</p>
         </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item"><strong>Title: </strong>{{ Perfume.title }}</li>
-          <li class="list-group-item"><strong>Style: </strong>{{ Perfume.style }}</li>
+          <li class="list-group-item"><strong>Title: </strong>{{ perfume.title }}</li>
+          <li class="list-group-item"><strong>Style: </strong>{{ perfume.style }}</li>
         </ul>
     </div>
     </a>
