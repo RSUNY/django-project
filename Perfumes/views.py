@@ -15,3 +15,6 @@ class PerfumesList(generic.DetailView):
 class DuplicateList(generic.DetailView):
     queryset = Perfume.objects.all()
     template_name = "duplicate_detail.html"
+
+
+    
