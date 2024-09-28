@@ -7,12 +7,20 @@
     margin: 0;
     box-sizing: border-box;    
 }
+
+@font-face {
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://fonts.gstatic.com/s/raleway/v34/1Ptug8zYS_SKggPNyCMIT5lu.woff2) format('woff2');
+    unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
 /* basic styling is resets default style  */
 
 /* HOME PAGE - mobile first */
-/* #home {
+#home {
     margin-top: 250px;
-} */
+}
 
 /* CONTACT-CONTENT SET MAX WIDTH - font styling for larger screens */
 
@@ -29,7 +37,7 @@
 
 body {
     min-height: 100vh;
-    background-color: #f9fafd;
+    background-color:   azure;
 }
 
 .brand {
