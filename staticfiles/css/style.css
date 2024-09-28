@@ -2,9 +2,10 @@
 @import url("https://fonts.googleapis.com/css?family=Raleway%7CRighteous");
 
 * {
+
     padding: 0;
     margin: 0;
-    box-sizing: 0;    
+    box-sizing: border-box;    
 }
 /* basic styling is resets default style  */
 
