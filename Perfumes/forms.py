@@ -6,12 +6,11 @@ class ReviewForm(forms.ModelForm):
 
 class Meta:
     model = Review
-    fields = ('review_title', 'review_content', 'rating',)
+    fields = ('review_title', 'rating',)
     widgets = {
         'review_title': forms.TextInput(
              attrs={'class': 'form-control',
-                'placeholder': 'Enter your review title'
-                                'Enter you review context'
+                'placeholder': 'Enter your reviews'
                 }
             ),
         }
