@@ -22,16 +22,25 @@ git add  . commit -m "enable serving of image files"
 git push origin main
 
 
+        <div class="container">
+            <div class="'row">
+                <div class="row bg">
+                    <a href="{% url 'home' %}"
+                    <!-- <span class="center-form"> images icons -->
+                    </a>
+                </div>
+                    <!-- 2 div classes like body or exerpt -->
+                     <!-- Used Cloudinary template from I think I Therfore Blog -->
+                     {% if "placeholder" in post.featured_image.url %}
+                     <img class="card-img-top" src="{% static 'images/default.jpg' %}"
+                       alt="placeholder image">
+                     {% else %}
+                     <img class="card-img-top" src=" {{ Perfume.featured_image.url }}"
+                       alt="{{ Perfume.title }}">
+                     {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
 
-     path(
-        '<slug:slug>/edit_review/<int:review_id>',
-        views.review_edit,
-        name='review_edit'
-    ),
-   #  edit reviews
-    path(
-        '<slug:slug>/delete_review/<int:review_id>',
-        views.review_delete,
-        name='review_delete'
-    ),
-    # delete review
+
