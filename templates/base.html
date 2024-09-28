@@ -13,13 +13,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    
+
     <!-- Google Fonts CSS -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;700&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome CSS -->
+    <!-- Favicons CSS -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png'%}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png'%}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png'%}">
+    <link rel="icon" type="image/png" href="{% static 'img/favicon.ico'%}">
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <!-- Bootstrap CSS -->
@@ -28,43 +34,73 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <meta name="description" content="Perfumes  and Reviews>
+    <meta name="description" content="Perfumes  and Reviews. Personalised and Enhance your expertise in duplicates.">
+    <meta name="keywords" content="Perfumes, Reviews, Duplicates">
+    <meta name="author" content="Perfumes, Reviews, Duplicates">
 
     <title>Hangouts {% block title %}{% block head_title}{%endblock head_title %}</title>
 </head>
 
 <body>
-    <nav></nav>
+    <!-- logo section -->
+
     <header>
-
-<!-- navbar  and footer -->
-        {include 'navbar.html'}
-<!-- messages and spans -->
-<!-- request user authentication -->
-        {% block content %}
-        {% endblock content %}
-
-        <div class="container">
-            <div class="'row">
-                <div class="row bg">
-                    <a href="{% url 'home' %}"
-                    <!-- <span class="center-form"> images icons -->
-                    </a>
+        <nav class="navbar" <!-- navbar and footer -->
+            <span class=" navbar-text text-muted">
+                adventures of a software developer
+            </span>
+            <!-- include 'navbar.html' -->
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'home' %}">Home</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                  aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                  <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                      <a class="nav-link {% if request.path == logout_url %}active{% endif %}" aria-current="page"
+                        href="{% url 'account_logout' %}">Logout</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                      <a class="nav-link {% if request.path == signup_url %}active{% endif %}" aria-current="page"
+                        href="{% url 'account_signup' %}">Register</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link {% if request.path == login_url %}active{% endif %}" aria-current="page"
+                        href="{% url 'account_login' %}">Login</a>
+                    </li>
+                    {% endif %}
+                  </ul>
+                  {% if user.is_authenticated %}
+                  <p class="text-end m-3">You are logged in as {{ user }}</p>
+                  {% else %}
+                  <p class="text-end m-3">You are not logged in</p>
+                  {% endif %}
                 </div>
-                    <!-- 2 div classes like body or exerpt -->
-                     <!-- Used Cloudinary template from I think I Therfore Blog -->
-                     {% if "placeholder" in post.featured_image.url %}
-                     <img class="card-img-top" src="{% static 'images/default.jpg' %}"
-                       alt="placeholder image">
-                     {% else %}
-                     <img class="card-img-top" src=" {{ Perfume.featured_image.url }}"
-                       alt="{{ Perfume.title }}">
-                     {% endif %}
+              </div>
+            </nav>
+            <!-- messages and alerts -->
+            <div class="container djangomessage">
+                <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                        {% for message in messages %}
+                        <div class="alert {{ message.tags }} alert-dismissible
+        fade show" id="msg" role="alert">
+                            {{ message | safe }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
-        </div>
 
+            {% block content %}
+            <!-- content goes here -->
+
+            {% endblock content %}
 
 
     </header>
@@ -74,17 +110,11 @@
 
     <!-- div ending tag from sit-top icons and classes -->
 
- <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-        
-<!-- <script src="{% static 'js/script.js'"></script>third party js source in this file -->
+
+    <!-- <script src="{% static 'js/script.js'"></script>third party js source in this file -->
 
 </body>
+
 </html>
-
-
-
-
-
-
-
