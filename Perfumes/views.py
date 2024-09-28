@@ -5,38 +5,43 @@ from .models import Perfume, Duplicate, Review
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.db.models import Avg
 # Create your views here.
 
-class PerfumesList(generic.DetailView):
-    queryset = Perfume.objects.all()
-    template_name = "perfume_detail.html"
-
-
-class DuplicateList(generic.DetailView):
-    queryset = Perfume.objects.all()
-    template_name = "duplicate_detail.html"
-
-
-class Perfume_detail(generic.ListView):
+class PerfumesList(generic.ListView):
     model = Perfume
-    template_name = "blog/perfume_detail"
+    template_name = "Perfumes/perfumes.html"
+    context_object_name = 'perfumes'
+
+
+class DuplicateList(generic.ListView):
+    model = Duplicate
+    template_name = "Perfumes/duplicates.html"
+    context_object_name = 'duplicates'
+
+
+class PerfumeDetail(generic.DetailView):
+    model = Perfume
+    template_name = "Perfumes/perfume_detail.html"
+    context_object_name = 'perfume'
     paginate_by = 8
 
 
-def post_detail(request, slug):
+class DuplicateDetail(generic.DetailView):
+    model = Duplicate
+    template_name = "Perfumes/duplicate_detail.html"
+    context_object_name = 'duplicate'
+    paginate_by = 8
+
+def PerfumeDetail(request, slug):
     """
-    Display an individual :model:`blog.Post`.
+    Display an individual :model:`Perfumes.Review`.
 
     **Context**
 
     ``post``
-        An instance of :model:`blog.Post`.
+        An instance of :model:`Perfumes.Review`.
 
-    **Template:**
+    **Post:method requiring instance=re**
 
-    :template:`blog/post_detail.html`
+    Edit Review`
     """
-    queryset = Post.objects.filter(status=1)
-    post = get_object_or_404(queryset, slug=slug)
-    return render(request, "blog/post_detail.html", {"post": post},)

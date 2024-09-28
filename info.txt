@@ -20,3 +20,18 @@
 " 
 git add  . commit -m "enable serving of image files"
 git push origin main
+
+
+
+     path(
+        '<slug:slug>/edit_review/<int:review_id>',
+        views.review_edit,
+        name='review_edit'
+    ),
+   #  edit reviews
+    path(
+        '<slug:slug>/delete_review/<int:review_id>',
+        views.review_delete,
+        name='review_delete'
+    ),
+    # delete review
