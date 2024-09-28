@@ -9,11 +9,12 @@
     <div class="col-md-4 col-12 mb-4 link_highlight">
       <a href="{% url 'DuplicatesList' duplicate.slug %}" class="card-link">
         <div class="card border-warning">
-          {% if "placeholder" in perfume.image.url %}
-          <img src="{% static 'img/default.jpg' %}" class="card-img-top" alt="Image of Perfume(placeholder image)">
-          {% else %}
-          <img src="{{ Duplicate.featured_image }}" class="card-img-top"
-            alt="Image of a Duplicate {{ Duplicate.perfume_id }}">
+          {% if "placeholder" in duplicate.image.url %}
+          <img class="card-img-top" src="{% static 'images/default.jpg' %}"
+          alt="placeholder image">
+        {% else %}
+        <img class="card-img-top" src=" {{ Duplicate.featured_image.url }}"
+          alt="{{ post.title }}">
           <div class="card-body">
             {% endif %}
             <h5 class="card-title">{{ Duplicate.title }}</h5>

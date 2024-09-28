@@ -10,25 +10,24 @@
       <a href="{% url 'PerfumesList' perfume.slug %}" class="card-link">
         <div class="card border-warning">
           {% if "placeholder" in perfume.image.url %}
-          <img src="{% static 'img/default.jpg' %}" class="card-img-top" alt="Image of Perfume(placeholder image)">
+          <img class="card-img-top" src="{% static 'images/default.jpg' %}" alt="placeholder image">
           {% else %}
-          <img src="{{ Perfume.featured_image }}" class="card-img-top"
-            alt="Image of a Perfume {{ Perfume.perfume_id }}">
+          <img class="card-img-top" src=" {{ Perfume.featured_image.url }}" alt="{{ post.title }}">
+          {% endif %}
           <div class="card-body">
-            {% endif %}
-            <h5 class="card-title">{{ Perfume.title }}</h5>
-            <p class="card-text">{{ Perfume.style }}</p>
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><strong>Title: </strong>{{ Perfume.title }}</li>
-            <li class="list-group-item"><strong>Style: </strong>{{ Perfume.style }}</li>
-          </ul>
+          <h5 class="card-title">{{ Perfume.title }}</h5>
+          <p class="card-text">{{ Perfume.style }}</p>
         </div>
-      </a>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Title: </strong>{{ Perfume.title }}</li>
+          <li class="list-group-item"><strong>Style: </strong>{{ Perfume.style }}</li>
+        </ul>
     </div>
-    <!-- End of iterated code-->
-    {% endfor %}
+    </a>
   </div>
+  <!-- End of iterated code-->
+  {% endfor %}
+</div>
 </div>
 {% if is_paginated %}
 <div class="pagination">
