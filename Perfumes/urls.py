@@ -8,18 +8,7 @@ urlpatterns = [
    path('duplicates', views.DuplicateList.as_view(), name='Duplicates'),
    path('<slug:slug>/', views.Perfume_detail, name='perfume_detail'),
    path('<slug:slug>/', views.Perfume_detail, name='duplicate_detail'),
-     path(
-        '<slug:slug>/edit_review/<int:review_id>',
-        views.review_edit,
-        name='review_edit'
-    ),
-   #  edit reviews
-    path(
-        '<slug:slug>/delete_review/<int:review_id>',
-        views.review_delete,
-        name='review_delete'
-    ),
-    # delete review
+
 ]
 
 # added urls to view home review_edit in views and review_delete
