@@ -14,4 +14,5 @@ urlpatterns = [
     views.subscription_list, name='subs'),
     path('<slug:slug>/notsubs/<int:sub_id>', 
     views.subscription_detail, name='notsubs'),
+]
 
