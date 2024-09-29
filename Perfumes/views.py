@@ -1,31 +1,29 @@
 from django.shortcuts import (
     render, get_object_or_404, redirect, reverse
 )
-from django.views import generic, View
+from django.views import generic
 from .models import Perfume, Duplicate, Review
 from .forms import ReviewForm
 from django.contrib import messages
-from django.http import HttpResponseRedirect
 
-# Create your views here.
+
 class PerfumesList(generic.ListView):
     model = Perfume
-    template_name = "Perfumes/perfumes.html"
+    template_name = "perfumes.html"
     context_object_name = 'perfumes'
     paginate_by = 8
 
 
-class PerfumeDetail(View):
+class PerfumeDetail(generic.View):
     def get(self, request, slug):
-        queryset = Perfume.objects.filter(status=1)
-        perfume = get_object_or_404(queryset, slug=slug)
+        perfume = self.get_perfume(slug)
         reviews = perfume.reviews.all().order_by("-created_on")
         reviews_count = perfume.reviews.filter(approved=True).count()
         review_form = ReviewForm()
-        
+
         return render(
             request,
-            "perfumes_list/perfume_detail.html",  # Use a specific template for detail view
+            "perfume_detail.html",
             {
                 "perfume": perfume,
                 "reviews": reviews,
@@ -35,43 +33,45 @@ class PerfumeDetail(View):
         )
 
     def post(self, request, slug):
-        queryset = Perfume.objects.filter(status=1)
-        perfume = get_object_or_404(queryset, slug=slug)
+        perfume = self.get_perfume(slug)
         review_form = ReviewForm(data=request.POST)
 
         if review_form.is_valid():
-            review = review_form.save(commit=False)
-            review.reviewer_featured = request.user
-            review.review_title = review_form.cleaned_data.get('review_title')
-            review.review_content = review_form.cleaned_data.get('review_content')
-            review.rating = review_form.cleaned_data.get('rating')
-            review.perfume = perfume  # Correct foreign key assignment
-            review.save()
+            self.save_review(review_form, perfume, request.user)
             messages.success(request, 'Review has been submitted')
-            return redirect('perfume_detail', slug=slug)
+        else:
+            messages.error(request, 'Error submitting review')
 
-        messages.error(request, 'Error submitting review')
         return redirect('perfume_detail', slug=slug)
+
+    def get_perfume(self, slug):
+        queryset = Perfume.objects.filter(status=1)
+        return get_object_or_404(queryset, slug=slug)
+
+    def save_review(self, form, perfume, user):
+        review = form.save(commit=False)
+        review.reviewer_featured = user
+        review.perfume = perfume
+        review.save()
 
 
 class DuplicatesList(generic.ListView):
     model = Duplicate
-    template_name = "Perfumes/duplicates.html"
+    template_name = "duplicates.html"
     context_object_name = 'duplicates'
     paginate_by = 8
 
 
-class DuplicateDetail(View):
+class DuplicateDetail(generic.View):
     def get(self, request, slug):
-        queryset = Duplicate.objects.filter(status=1)
-        duplicate = get_object_or_404(queryset, slug=slug)
+        duplicate = self.get_duplicate(slug)
         reviews = duplicate.reviews.all().order_by("-created_on")
         reviews_count = duplicate.reviews.filter(approved=True).count()
         review_form = ReviewForm()
 
         return render(
             request,
-            "duplicates_list/duplicate_detail.html",  # Use a specific template for detail view
+            "duplicate_detail.html",
             {
                 "duplicate": duplicate,
                 "reviews": reviews,
@@ -81,65 +81,47 @@ class DuplicateDetail(View):
         )
 
     def post(self, request, slug):
-        queryset = Duplicate.objects.filter(status=1)
-        duplicate = get_object_or_404(queryset, slug=slug)
+        duplicate = self.get_duplicate(slug)
         review_form = ReviewForm(data=request.POST)
 
         if review_form.is_valid():
-            review = review_form.save(commit=False)
-            review.reviewer_featured = request.user
-            review.review_title = review_form.cleaned_data.get('review_title')
-            review.review_content = review_form.cleaned_data.get('review_content')
-            review.rating = review_form.cleaned_data.get('rating')
-            review.duplicate = duplicate  # Correct foreign key assignment
-            review.save()
+            self.save_review(review_form, duplicate, request.user)
             messages.success(request, 'Review has been submitted')
-            return redirect('duplicate_detail', slug=slug)
+        else:
+            messages.error(request, 'Error submitting review')
 
-        messages.error(request, 'Error submitting review')
         return redirect('duplicate_detail', slug=slug)
 
+    def get_duplicate(self, slug):
+        queryset = Duplicate.objects.filter(status=1)
+        return get_object_or_404(queryset, slug=slug)
 
-# Review editing and deletion should be outside the classes
+    def save_review(self, form, duplicate, user):
+        review = form.save(commit=False)
+        review.reviewer_featured = user
+        review.duplicate = duplicate
+        review.save()
+
+
+# Review editing and deletion functions
 def edit_review(request, slug, review_id):
-    queryset = Perfume.objects.filter(status=1)
-    perfume = get_object_or_404(queryset, slug=slug)
-    review = get_object_or_404(Review, pk=review_id)
-
-    if request.method == "POST":
-        review_form = ReviewForm(data=request.POST, instance=review)
-
-        if review_form.is_valid():
-            review = review_form.save(commit=False)
-            review.reviewer_featured = request.user
-            review.review_title = review_form.cleaned_data.get('review_title')
-            review.rating = review_form.cleaned_data.get('rating')
-            review.perfume = perfume
-            review.save()
-            messages.success(request, 'Review edited successfully')
-        else:
-            messages.error(request, 'Error updating Review!')
-
-    return HttpResponseRedirect(reverse('perfume_detail', args=[slug]))
+    return handle_review_edit(request, slug, review_id, Perfume)
 
 
 def delete_review(request, slug, review_id):
-    queryset = Perfume.objects.filter(status=1)
-    perfume = get_object_or_404(queryset, slug=slug)
-    review = get_object_or_404(Review, pk=review_id)
-
-    if review.reviewer_featured == request.user:
-        review.delete()
-        messages.success(request, 'Review deleted!')
-    else:
-        messages.error(request, 'You can only delete your own reviews!')
-
-    return HttpResponseRedirect(reverse('perfume_detail', args=[slug]))
+    return handle_review_delete(request, slug, review_id, Perfume)
 
 
 def edit_duplicate_review(request, slug, review_id):
-    queryset = Duplicate.objects.filter(status=1)
-    duplicate = get_object_or_404(queryset, slug=slug)
+    return handle_review_edit(request, slug, review_id, Duplicate)
+
+
+def delete_duplicate_review(request, slug, review_id):
+    return handle_review_delete(request, slug, review_id, Duplicate)
+
+
+def handle_review_edit(request, slug, review_id, model):
+    instance = model.objects.filter(status=1).get(slug=slug)
     review = get_object_or_404(Review, pk=review_id)
 
     if request.method == "POST":
@@ -148,20 +130,20 @@ def edit_duplicate_review(request, slug, review_id):
         if review_form.is_valid():
             review = review_form.save(commit=False)
             review.reviewer_featured = request.user
-            review.review_title = review_form.cleaned_data.get('review_title')
-            review.rating = review_form.cleaned_data.get('rating')
-            review.duplicate = duplicate
+            if model == Perfume:
+                review.perfume = instance
+            else:
+                review.duplicate = instance
             review.save()
             messages.success(request, 'Review edited successfully')
         else:
             messages.error(request, 'Error updating Review!')
 
-    return HttpResponseRedirect(reverse('duplicate_detail', args=[slug]))
+    return HttpResponseRedirect(reverse('perfume_detail' if model == Perfume else 'duplicate_detail', args=[slug]))
 
 
-def delete_duplicate_review(request, slug, review_id):
-    queryset = Duplicate.objects.filter(status=1)
-    duplicate = get_object_or_404(queryset, slug=slug)
+def handle_review_delete(request, slug, review_id, model):
+    instance = model.objects.filter(status=1).get(slug=slug)
     review = get_object_or_404(Review, pk=review_id)
 
     if review.reviewer_featured == request.user:
@@ -170,17 +152,4 @@ def delete_duplicate_review(request, slug, review_id):
     else:
         messages.error(request, 'You can only delete your own reviews!')
 
-    return HttpResponseRedirect(reverse('duplicate_detail', args=[slug]))
-
-    """
-    Display an individual :model:`Perfumes.Review`.
-
-    **Context**
-
-    ``post``
-        An instance of :model:`Perfumes.Review`.
-
-    **Post:method requiring instance=re**
-
-    'Delete:Edit Review Edit:Edit Review` 
-    """
+    return HttpResponseRedirect(reverse('perfume_detail' if model == Perfume else 'duplicate_detail', args=[slug]))

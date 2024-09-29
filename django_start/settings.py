@@ -30,11 +30,12 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS= ['8000-rsuny-djangoproject-7tx0ufudlt2.ws.codeinstitute-ide.net',
 'https://stormy-anchorage-07107-39e5beb43f5b.herokuapp.com'
-'GET / HTTP/1.1" 404 3938']
+'GET / HTTP/1.1" 404 3938'
+'HTTP/1.1" 404 179']
 CSRF_TRUSTED_ORIGINS = [
     'https://*.codeinstitute-ide.net',
     'https://*.herokuapp.com',

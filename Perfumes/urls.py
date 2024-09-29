@@ -8,16 +8,16 @@ from . import views
 
 urlpatterns = [
    path('perfumes/', views.PerfumesList.as_view(), name='perfumes_list'),
-   path('duplicates', views.DuplicatesList.as_view(), name='duplicates_list'),
+   path('duplicates/', views.DuplicatesList.as_view(), name='duplicates_list'),
     
-   path('perfumes/<slug:slug>/', views.PerfumeDetail.as_view(), name='perfume_detail'),
-   path('duplicates/<slug:slug>/', views.DuplicateDetail.as_view(), name='duplicate_detail'),
+   path('Perfumes/<slug:slug>/', views.PerfumeDetail.as_view(), name='perfume_detail'),
+   path('Duplicates/<slug:slug>/', views.DuplicateDetail.as_view(), name='duplicate_detail'),
     
-   path('perfumes/<slug:slug>/edit_review/<int:review_id>/', views.edit_review, name='edit_perfume_review'),
-   path('perfumes/<slug:slug>/delete_review/<int:review_id>/', views.delete_review, name='delete_perfume_review'),
+   path('reviews/<slug:slug>/edit_review/<int:review_id>/', views.edit_review, name='edit_perfume_review'),
+   path('review/<slug:slug>/delete_review/<int:review_id>/', views.delete_review, name='delete_perfume_review'),
     
-   path('duplicates/<slug:slug>/edit_review/<int:review_id>/', views.edit_duplicate_review, name='edit_duplicate_review'),
-   path('duplicates/<slug:slug>/delete_review/<int:review_id>/', views.delete_duplicate_review, name='delete_duplicate_review'),
+   path('Reviews/<slug:slug>/edit_review/<int:review_id>/', views.edit_duplicate_review, name='edit_duplicate_review'),
+   path('Review/<slug:slug>/delete_review/<int:review_id>/', views.delete_duplicate_review, name='delete_duplicate_review'),
 ]
 
 
